@@ -11,6 +11,9 @@ export const client = createClient({
 export const db = drizzle(client, { schema });
 
 export async function initDb() {
+  await client.execute('PRAGMA journal_mode = WAL;');
+  await client.execute('PRAGMA busy_timeout = 5000;');
+
   // Ensure tables exist using idempotent DDL statements
   await client.execute(`
     CREATE TABLE IF NOT EXISTS site_settings (
