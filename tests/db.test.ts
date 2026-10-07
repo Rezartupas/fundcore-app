@@ -7,6 +7,11 @@ import { eq } from 'drizzle-orm';
 describe('Database Schema & Seeding (SQLite/Drizzle)', () => {
   beforeAll(async () => {
     await initDb();
+    await db.update(siteSettings).set({
+      siteName: 'FundCore',
+      colorBrand: '#0A2540',
+      colorAccent: '#F59E0B'
+    });
     await seedDb();
   });
 

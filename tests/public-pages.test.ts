@@ -1,12 +1,18 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { load as loadHome } from '../src/routes/+page.server.js';
 import { load as loadLayout } from '../src/routes/+layout.server.js';
-import { initDb } from '../src/lib/server/db/index.js';
+import { initDb, db } from '../src/lib/server/db/index.js';
 import { seedDb } from '../src/lib/server/db/seed.js';
+import { siteSettings } from '../src/lib/server/db/schema.js';
 
 describe('Public Web Pages Server Loaders', () => {
   beforeAll(async () => {
     await initDb();
+    await db.update(siteSettings).set({
+      siteName: 'FundCore',
+      colorBrand: '#0A2540',
+      colorAccent: '#F59E0B'
+    });
     await seedDb();
   });
 
