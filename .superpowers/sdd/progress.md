@@ -3,7 +3,7 @@
 Base commit: d0f8fa7
 
 - [x] Task 1: Project Scaffolding & Setup (commits d0f8fa7..744f4ff, tests passing)
-- [ ] Task 2: Database Layer & Seed Data (Drizzle ORM)
+- [x] Task 2: Database Layer & Seed Data (Drizzle ORM) (commits 744f4ff..7c052af, tests passing)
 - [ ] Task 3: White-Label Theme Engine & WCAG Contrast Validator
 - [ ] Task 4: Public Web Pages (Home & Campaign Listing)
 - [ ] Task 5: Campaign Detail Page & Prayer Feed
