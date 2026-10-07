@@ -22,34 +22,37 @@
           <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white shadow-xs" style="background-color: var(--color-brand);">
             FC
           </div>
-          <span class="text-xl font-black tracking-tight text-slate-900">{settings.siteName}</span>
+          <span class="text-xl font-black tracking-tight text-slate-900 font-display">{settings.siteName}</span>
         </div>
         <p class="text-sm text-slate-600 max-w-md leading-relaxed">
-          {settings.tagline}. Memfasilitasi para dermawan dan #OrangBaik untuk bergotong-royong membantu sesama secara transparan, mudah, dan amanah.
+          {settings.tagline}. Memfasilitasi para dermawan dan relawan untuk bergotong-royong membantu sesama secara transparan, mudah, dan amanah.
         </p>
 
         <!-- Legal Badge Box -->
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-2">
-          <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
+          <div class="flex items-center gap-2 text-xs font-bold text-slate-800">
             <Shield class="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>Legalitas & Perizinan Resmi:</span>
+            <span>Legalitas & Perizinan Resmi Yayasan</span>
           </div>
-          <p class="text-xs text-slate-500 leading-normal">
-            {settings.legalSk}
+          <p class="text-xs text-slate-600 leading-normal">
+            SK Kemenkumham: {settings.legalSk}
+          </p>
+          <p class="text-xs text-slate-600 leading-normal">
+            Lembaga Pengelola: {settings.orgName}
           </p>
         </div>
       </div>
 
       <!-- Contact Info -->
       <div class="space-y-3">
-        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Sekretariat Yayasan</h4>
+        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider font-display">Sekretariat Yayasan</h4>
         <div class="space-y-2.5 text-xs text-slate-600">
           <div class="flex items-start gap-2">
-            <MapPin class="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+            <MapPin class="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
             <span>{settings.orgAddress}</span>
           </div>
           <div class="flex items-center gap-2">
-            <Phone class="w-4 h-4 text-slate-400 shrink-0" />
+            <Phone class="w-4 h-4 text-slate-500 shrink-0" />
             <span>{settings.orgPhone}</span>
           </div>
           <div class="flex items-center gap-2">
@@ -59,26 +62,42 @@
         </div>
       </div>
 
-      <!-- Transparency & Policies -->
+      <!-- Navigation & Transparency Links -->
       <div class="space-y-3">
-        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Transparansi</h4>
-        <ul class="space-y-2 text-xs text-slate-600">
-          <li><a href="/#trust" class="hover:text-slate-900 transition-colors">Biaya Platform 5% & Gateway</a></li>
-          <li><a href="/#trust" class="hover:text-slate-900 transition-colors">Standar Verifikasi Pasien & Bencana</a></li>
-          <li><a href="/admin" class="hover:text-slate-900 transition-colors text-blue-600 font-medium">Masuk Panel Pengelola</a></li>
-          <li><span class="text-slate-400">© 2026 {settings.orgName}. Seluruh Hak Dilindungi.</span></li>
+        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider font-display">Navigasi Cepat</h4>
+        <ul class="space-y-2.5 text-xs text-slate-600">
+          <li>
+            <a href="/#campaigns" class="hover:text-slate-900 transition-colors inline-flex items-center py-0.5">
+              Pilihan Program Donasi
+            </a>
+          </li>
+          <li>
+            <a href="/#trust" class="hover:text-slate-900 transition-colors inline-flex items-center py-0.5">
+              Transparansi & Verifikasi
+            </a>
+          </li>
+          <li>
+            <a href="/#trust" class="hover:text-slate-900 transition-colors inline-flex items-center py-0.5">
+              Alokasi Biaya Platform 5%
+            </a>
+          </li>
+          <li>
+            <a href="/admin" class="hover:text-blue-700 transition-colors text-blue-600 font-semibold inline-flex items-center py-0.5">
+              Masuk Panel Pengelola
+            </a>
+          </li>
         </ul>
       </div>
     </div>
 
     <!-- Bottom Disclaimer -->
-    <div class="pt-8 mt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-      <div class="flex items-center gap-1">
+    <div class="pt-8 mt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
+      <div class="flex items-center gap-1.5">
         <span>Dibangun dengan penuh amanah untuk kebaikan bersama</span>
         <Heart class="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
       </div>
       <div>
-        <span>Platform Crowdfunding FundCore v1.0</span>
+        <span>© 2026 {settings.orgName}. Seluruh hak cipta dilindungi.</span>
       </div>
     </div>
   </div>
