@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Heart, Sparkles, User, MessageCircleHeart } from 'lucide-svelte';
+  import { Sparkles, User, MessageCircleHeart } from 'lucide-svelte';
 
   let { donations = [], onAmen } = $props<{
     donations: Array<{
@@ -43,11 +43,11 @@
     </div>
   {:else}
     {#each donations as d (d.id)}
-      <div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-100 shadow-2xs space-y-3">
+      <div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-3">
         <!-- Header: Donor Avatar & Name & Amount -->
         <div class="flex items-start justify-between gap-3">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-blue-50 text-blue-900 border border-blue-100 shrink-0">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-blue-50 text-blue-900 border border-blue-200/70 shrink-0">
               {#if d.isAnonymous}
                 <User class="w-5 h-5 text-blue-800" />
               {:else}
@@ -59,11 +59,11 @@
                 <span class="text-sm font-bold text-slate-900">
                   {d.isAnonymous ? 'Hamba Allah' : d.donorName}
                 </span>
-                <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100">
+                <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200/80">
                   Donatur
                 </span>
               </div>
-              <span class="text-xs text-slate-400 font-medium">
+              <span class="text-xs text-slate-500 font-medium">
                 {formatRelativeTime(d.createdAt)}
               </span>
             </div>
@@ -80,7 +80,7 @@
 
         <!-- Prayer Text -->
         {#if d.prayer}
-          <div class="p-3.5 rounded-xl bg-slate-50/80 border border-slate-100 text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-xs sm:text-sm text-slate-700 leading-relaxed italic">
             "{d.prayer}"
           </div>
         {/if}
@@ -91,12 +91,12 @@
             <button
               type="button"
               onclick={() => onAmen?.(d.id)}
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200/60 active:scale-95 transition-all"
+              class="min-h-[44px] inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold bg-amber-50 text-amber-950 hover:bg-amber-100 border border-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 active:scale-95 transition-all cursor-pointer"
             >
-              <Sparkles class="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
+              <Sparkles class="w-3.5 h-3.5 text-amber-700 fill-amber-700" />
               <span>Aamiin ({d.prayerAmenCount})</span>
             </button>
-            <span class="text-[11px] text-slate-400">
+            <span class="text-xs text-slate-500 font-medium">
               {d.prayerAmenCount} orang mengaminkan
             </span>
           </div>
