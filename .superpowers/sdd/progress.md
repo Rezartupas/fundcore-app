@@ -7,7 +7,7 @@ Base commit: d0f8fa7
 - [x] Task 3: White-Label Theme Engine & WCAG Contrast Validator (commits 7c052af..c153279, tests passing)
 - [x] Task 4: Public Web Pages (Home & Campaign Listing) (commits c153279..971276e, tests passing)
 - [x] Task 5: Campaign Detail Page & Prayer Feed (commits 971276e..72730f7, tests passing)
-- [ ] Task 6: Instant Checkout Flow (<60s) & Donation API
+- [x] Task 6: Instant Checkout Flow (<60s) & Donation API (commits 72730f7..f753ae4, tests passing)
 - [ ] Task 7: Winpay Payment Integration & Sandbox Simulator
 - [ ] Task 8: WhatsApp (WAHA) Notification Engine & Sticky CS Router
 - [ ] Task 9: Admin Dashboard: Overview & Executive Monitoring
