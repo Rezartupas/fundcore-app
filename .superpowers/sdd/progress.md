@@ -5,7 +5,7 @@ Base commit: d0f8fa7
 - [x] Task 1: Project Scaffolding & Setup (commits d0f8fa7..744f4ff, tests passing)
 - [x] Task 2: Database Layer & Seed Data (Drizzle ORM) (commits 744f4ff..7c052af, tests passing)
 - [x] Task 3: White-Label Theme Engine & WCAG Contrast Validator (commits 7c052af..c153279, tests passing)
-- [ ] Task 4: Public Web Pages (Home & Campaign Listing)
+- [x] Task 4: Public Web Pages (Home & Campaign Listing) (commits c153279..971276e, tests passing)
 - [ ] Task 5: Campaign Detail Page & Prayer Feed
 - [ ] Task 6: Instant Checkout Flow (<60s) & Donation API
 - [ ] Task 7: Winpay Payment Integration & Sandbox Simulator
