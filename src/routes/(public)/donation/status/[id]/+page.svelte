@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Navbar from '$lib/components/Navbar.svelte';
-  import Footer from '$lib/components/Footer.svelte';
   import { onMount } from 'svelte';
   import {
     CheckCircle2,
@@ -84,8 +82,6 @@
     return `https://api.whatsapp.com/send?text=${text}`;
   });
 </script>
-
-<Navbar settings={data.settings} />
 
 <main class="flex-1 py-8 sm:py-16 bg-slate-50 flex items-center justify-center">
   <div class="max-w-lg w-full px-4 sm:px-6">
@@ -223,5 +219,3 @@
     {/if}
   </div>
 </main>
-
-<Footer settings={data.settings} />

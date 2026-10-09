@@ -73,7 +73,7 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <main class="flex-1 pb-24 sm:pb-16 bg-slate-50">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-8">
+  <div class="px-4 py-6 space-y-6">
     <!-- Back to Home Bar -->
     <div class="flex items-center justify-between">
       <a

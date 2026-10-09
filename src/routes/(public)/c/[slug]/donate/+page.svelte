@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Navbar from '$lib/components/Navbar.svelte';
-  import Footer from '$lib/components/Footer.svelte';
   import NominalChips from '$lib/components/NominalChips.svelte';
   import {
     Heart,
@@ -81,8 +79,6 @@
     }
   }
 </script>
-
-<Navbar settings={data.settings} />
 
 <main class="flex-1 bg-slate-50">
   <div class="max-w-xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
@@ -262,5 +258,3 @@
     </div>
   </div>
 </main>
-
-<Footer settings={data.settings} />
