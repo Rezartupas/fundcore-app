@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Navbar from '$lib/components/Navbar.svelte';
-  import Footer from '$lib/components/Footer.svelte';
   import StickyDonateBar from '$lib/components/StickyDonateBar.svelte';
   import DonorPrayerList from '$lib/components/DonorPrayerList.svelte';
   import {
@@ -73,8 +71,6 @@
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
-
-<Navbar settings={data.settings} />
 
 <main class="flex-1 pb-24 sm:pb-16 bg-slate-50">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-8">
@@ -328,5 +324,3 @@
     </div>
   </div>
 {/if}
-
-<Footer settings={data.settings} />

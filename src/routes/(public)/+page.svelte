@@ -2,9 +2,7 @@
   import { onMount } from 'svelte';
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import Navbar from '$lib/components/Navbar.svelte';
   import CampaignCard from '$lib/components/CampaignCard.svelte';
-  import Footer from '$lib/components/Footer.svelte';
   import {
     Heart,
     Search,
@@ -64,8 +62,6 @@
     }
   });
 </script>
-
-<Navbar settings={data.settings} />
 
 <main class="flex-1">
   <!-- Hero Section -->
@@ -371,5 +367,3 @@
     </div>
   </section>
 </main>
-
-<Footer settings={data.settings} />

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { load as loadDetail, actions } from '../src/routes/c/[slug]/+page.server.js';
+import { load as loadDetail, actions } from '../src/routes/(public)/c/[slug]/+page.server.js';
 import { initDb, db } from '../src/lib/server/db/index.js';
 import { seedDb } from '../src/lib/server/db/seed.js';
 import { donations } from '../src/lib/server/db/schema.js';

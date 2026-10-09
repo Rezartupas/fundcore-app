@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { Shield, Heart, FileCheck, Phone, MapPin } from 'lucide-svelte';
-
   let { settings } = $props<{
     settings: {
       siteName: string;
       tagline: string;
+      logoUrl: string;
       orgName: string;
       orgAddress: string;
       orgPhone: string;
@@ -13,92 +12,36 @@
   }>();
 </script>
 
-<footer class="bg-white border-t border-slate-200 mt-auto">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
-      <!-- Brand & Mission Column -->
-      <div class="md:col-span-2 space-y-4">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white shadow-xs" style="background-color: var(--color-brand);">
-            FC
-          </div>
-          <span class="text-xl font-black tracking-tight text-slate-900 font-display">{settings.siteName}</span>
-        </div>
-        <p class="text-sm text-slate-600 max-w-md leading-relaxed">
-          {settings.tagline}. Memfasilitasi para dermawan dan relawan untuk bergotong-royong membantu sesama secara transparan, mudah, dan amanah.
-        </p>
-
-        <!-- Legal Badge Box -->
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-          <div class="flex items-center gap-2 text-xs font-bold text-slate-800">
-            <Shield class="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>Legalitas & Perizinan Resmi Yayasan</span>
-          </div>
-          <p class="text-xs text-slate-600 leading-normal">
-            SK Kemenkumham: {settings.legalSk}
-          </p>
-          <p class="text-xs text-slate-600 leading-normal">
-            Lembaga Pengelola: {settings.orgName}
-          </p>
-        </div>
+<footer class="border-t border-slate-200/80 bg-white px-4 py-6 text-xs text-slate-600">
+  <div class="space-y-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <img src={settings.logoUrl || '/fundcore-logo.png'} alt={settings.siteName} class="h-7 w-auto object-contain" />
+        <span class="text-sm font-black tracking-tight text-slate-900">{settings.siteName}</span>
       </div>
-
-      <!-- Contact Info -->
-      <div class="space-y-3">
-        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider font-display">Sekretariat Yayasan</h4>
-        <div class="space-y-2.5 text-xs text-slate-600">
-          <div class="flex items-start gap-2">
-            <MapPin class="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
-            <span>{settings.orgAddress}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <Phone class="w-4 h-4 text-slate-500 shrink-0" />
-            <span>{settings.orgPhone}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <FileCheck class="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>Laporan Penyaluran Berkala</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Navigation & Transparency Links -->
-      <div class="space-y-3">
-        <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider font-display">Navigasi Cepat</h4>
-        <ul class="space-y-2.5 text-xs text-slate-600">
-          <li>
-            <a href="/#campaigns" class="hover:text-slate-900 transition-colors inline-flex items-center py-0.5">
-              Pilihan Program Donasi
-            </a>
-          </li>
-          <li>
-            <a href="/#trust" class="hover:text-slate-900 transition-colors inline-flex items-center py-0.5">
-              Transparansi & Verifikasi
-            </a>
-          </li>
-          <li>
-            <a href="/#trust" class="hover:text-slate-900 transition-colors inline-flex items-center py-0.5">
-              Alokasi Biaya Platform 5%
-            </a>
-          </li>
-          <li>
-            <a href="/admin" class="hover:text-blue-700 transition-colors text-blue-600 font-semibold inline-flex items-center py-0.5">
-              Masuk Panel Pengelola
-            </a>
-          </li>
-        </ul>
-      </div>
+      <p class="mt-1.5 leading-relaxed">{settings.tagline}</p>
     </div>
 
-    <!-- Bottom Disclaimer -->
-    <div class="pt-8 mt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
-      <div class="flex items-center gap-1.5">
-        <span>Dibangun dengan penuh amanah untuk kebaikan bersama</span>
-        <Heart class="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
-      </div>
-      <div>
-        <span>© 2026 {settings.orgName}. Seluruh hak cipta dilindungi.</span>
-      </div>
+    <div class="space-y-1 leading-relaxed">
+      <p class="font-semibold text-slate-800">{settings.orgName}</p>
+      <p>{settings.orgAddress}</p>
+      <p>{settings.orgPhone}</p>
+      <p>{settings.legalSk}</p>
     </div>
+
+    <div class="flex items-center gap-4 font-semibold">
+      <a href="#" class="hover:text-slate-900">Instagram</a>
+      <a href="#" class="hover:text-slate-900">Facebook</a>
+      <a href="#" class="hover:text-slate-900">X</a>
+      <a href="#" class="hover:text-slate-900">YouTube</a>
+    </div>
+
+    <nav class="flex items-center gap-4 border-t border-slate-100 pt-4 font-semibold">
+      <a href="/" class="hover:text-slate-900">Beranda</a>
+      <a href="/campaigns" class="hover:text-slate-900">Campaign</a>
+      <a href="/tentang" class="hover:text-slate-900">Tentang</a>
+    </nav>
+
+    <p class="text-slate-400">© 2026 {settings.orgName}. Seluruh hak cipta dilindungi.</p>
   </div>
 </footer>

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { load as loadHome } from '../src/routes/+page.server.js';
-import { load as loadDetail } from '../src/routes/c/[slug]/+page.server.js';
+import { load as loadHome } from '../src/routes/(public)/+page.server.js';
+import { load as loadDetail } from '../src/routes/(public)/c/[slug]/+page.server.js';
 import { POST as createDonationApi } from '../src/routes/api/donations/+server.js';
 import { POST as webhookWinpayApi } from '../src/routes/webhooks/winpay/[secret]/+server.js';
 import { GET as getStatusApi } from '../src/routes/api/donations/[id]/status/+server.js';
