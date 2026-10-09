@@ -1,4 +1,4 @@
-import { getActiveCampaigns } from '$lib/server/campaigns';
+import { getActiveCampaigns, getRecentUpdates } from '$lib/server/campaigns';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
@@ -15,6 +15,7 @@ export const load: PageServerLoad = async () => {
       totalDonors,
       totalCampaigns: allCampaigns.length,
       urgentCount
-    }
+    },
+    updates: await getRecentUpdates(4)
   };
 };
