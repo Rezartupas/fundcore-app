@@ -1,14 +1,8 @@
-import { db } from '$lib/server/db/index';
-import { campaigns, donations } from '$lib/server/db/schema';
-import { eq, desc } from 'drizzle-orm';
+import { getActiveCampaigns } from '$lib/server/campaigns';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-  const allCampaigns = await db
-    .select()
-    .from(campaigns)
-    .where(eq(campaigns.status, 'active'))
-    .orderBy(desc(campaigns.isUrgent), desc(campaigns.createdAt));
+  const allCampaigns = await getActiveCampaigns();
 
   const totalCollected = allCampaigns.reduce((acc, c) => acc + c.collectedAmount, 0);
   const totalDonors = allCampaigns.reduce((acc, c) => acc + c.donorCount, 0);
