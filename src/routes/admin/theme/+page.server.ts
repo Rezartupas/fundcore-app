@@ -2,24 +2,12 @@ import { db } from '$lib/server/db/index';
 import { siteSettings } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { fail } from '@sveltejs/kit';
+import { loadTheme, validateThemeColors } from '$lib/server/theme';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async () => {
-  const [settings] = await db.select().from(siteSettings).limit(1);
-
   return {
-    settings: settings || {
-      siteName: 'FundCore',
-      tagline: 'Platform Penggalangan Dana & Donasi Cepat',
-      logoUrl: '/fundcore-logo.png',
-      colorBg: '#F8FAFC',
-      colorBrand: '#0A2540',
-      colorAccent: '#F59E0B',
-      orgName: 'Yayasan FundCore Peduli',
-      orgAddress: 'Jakarta Selatan',
-      orgPhone: '0812-3456-7890',
-      legalSk: 'SK Kemenkumham No. AHU-0012345'
-    }
+    settings: await loadTheme()
   };
 };
 
@@ -64,6 +52,6 @@ export const actions: Actions = {
         .where(eq(siteSettings.id, existing.id));
     }
 
-    return { success: true };
+    return { success: true, warning: validateThemeColors({ colorBrand, colorAccent }).join(' ') || undefined };
   }
 };

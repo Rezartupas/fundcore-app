@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { calculateDonationFees } from '../src/lib/server/payment/winpay.js';
+import { quoteDonation } from '../src/lib/server/payment/pricing.js';
+import { settlePaidDonation } from '../src/lib/server/payment/settle.js';
 import { POST as webhookHandler } from '../src/routes/webhooks/winpay/[secret]/+server.js';
 import { initDb, db } from '../src/lib/server/db/index.js';
 import { seedDb } from '../src/lib/server/db/seed.js';
@@ -14,16 +15,27 @@ describe('Winpay Payment Integration & Webhook Handler', () => {
 
   it('should calculate 5% platform fee and channel MDR correctly', () => {
     // 100.000 donation via QRIS
-    const feesQris = calculateDonationFees(100000, 'QRIS');
+    const feesQris = quoteDonation(100000, 'QRIS');
     expect(feesQris.platformFee).toBe(5000); // 5% of 100k
     expect(feesQris.gatewayFee).toBe(700); // 0.7% of 100k
     expect(feesQris.netAmount).toBe(94300); // 100k - 5k - 700
 
     // 100.000 donation via Virtual Account
-    const feesVa = calculateDonationFees(100000, 'BCA VA');
+    const feesVa = quoteDonation(100000, 'BCA VA');
     expect(feesVa.platformFee).toBe(5000);
     expect(feesVa.gatewayFee).toBe(2500); // Flat Rp 2.500
     expect(feesVa.netAmount).toBe(92500);
+
+    // Unknown channel → documented default estimate
+    const feesDefault = quoteDonation(100000);
+    expect(feesDefault.platformFee).toBe(5000);
+    expect(feesDefault.gatewayFee).toBe(1500);
+    expect(feesDefault.netAmount).toBe(93500);
+
+    // Callback fee wins over the estimate (explicit 0 honored)
+    const feesCallback = quoteDonation(100000, 'BSI', 0);
+    expect(feesCallback.gatewayFee).toBe(0);
+    expect(feesCallback.netAmount).toBe(95000);
   });
 
   it('should handle webhook PAID callback idempotently and update campaign totals', async () => {
@@ -104,5 +116,11 @@ describe('Winpay Payment Integration & Webhook Handler', () => {
       .where(eq(campaigns.id, campaignBefore.id));
     expect(campaignAfter2.collectedAmount).toBe(campaignAfter1.collectedAmount);
     expect(campaignAfter2.donorCount).toBe(campaignAfter1.donorCount);
+  });
+
+  it('settlePaidDonation reports outcomes without HTTP scaffolding', async () => {
+    expect(await settlePaidDonation('INV-DOES-NOT-EXIST', {})).toBe('unknown-ref');
+    // Seed donation don-1 is paid: repeat settlement is a no-op report
+    expect(await settlePaidDonation('INV-20261001-001', {})).toBe('already-paid');
   });
 });

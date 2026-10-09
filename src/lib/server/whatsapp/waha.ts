@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db/index';
 import { waAccounts, waMessages } from '$lib/server/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, asc } from 'drizzle-orm';
 
 export function formatChatId(phone: string): string {
   let clean = phone.replace(/\D/g, '');
@@ -12,17 +12,26 @@ export function formatChatId(phone: string): string {
   return `${clean}@c.us`;
 }
 
-export async function assignStickyWaAccount(): Promise<string | null> {
+export async function assignStickyWaAccount(donorPhone?: string): Promise<string | null> {
   const activeAccounts = await db
     .select()
     .from(waAccounts)
-    .where(eq(waAccounts.isActive, true));
+    .where(eq(waAccounts.isActive, true))
+    .orderBy(asc(waAccounts.id));
 
   if (activeAccounts.length === 0) return null;
+  if (activeAccounts.length === 1) return activeAccounts[0].id;
 
-  // Simple round-robin selection
-  const selected = activeAccounts[Math.floor(Math.random() * activeAccounts.length)];
-  return selected.id;
+  // Deterministic sticky pick: the same donor always lands on the same
+  // number, new donors spread across numbers. Documented deviation from
+  // strict round-robin (PRD 6.5): needs no rotation state and is race-free.
+  // Revisit when the queued worker-wa lands and true rotation is cheap.
+  let hash = 0;
+  const key = donorPhone || '';
+  for (let i = 0; i < key.length; i++) {
+    hash = (hash * 31 + key.charCodeAt(i)) | 0;
+  }
+  return activeAccounts[Math.abs(hash) % activeAccounts.length].id;
 }
 
 export async function sendWahaMessage({

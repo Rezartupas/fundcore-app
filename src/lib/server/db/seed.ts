@@ -8,6 +8,7 @@ import {
   waSettings
 } from './schema.js';
 import { eq, count } from 'drizzle-orm';
+import { DEFAULT_SETTINGS } from '../theme.js';
 
 export async function seedDb() {
   await initDb();
@@ -16,17 +17,7 @@ export async function seedDb() {
   const [existingSettings] = await db.select().from(siteSettings).limit(1);
   if (!existingSettings) {
     await db.insert(siteSettings).values({
-      siteName: 'FundCore',
-      tagline: 'Platform Penggalangan Dana & Donasi Cepat Terpercaya',
-      logoUrl: '/fundcore-logo.png',
-      faviconUrl: '/favicon.svg',
-      colorBg: '#F8FAFC',
-      colorBrand: '#0A2540',
-      colorAccent: '#F59E0B',
-      orgName: 'Yayasan FundCore Peduli Indonesia',
-      orgAddress: 'Jl. TB Simatupang No. 18, Jakarta Selatan 12520',
-      orgPhone: '0812-3456-7890',
-      legalSk: 'SK Kemenkumham RI: AHU-0012345.AH.01.04.Tahun 2024 | Izin PUB Kemensos: 882/HUK-PS/2026',
+      ...DEFAULT_SETTINGS,
       updatedAt: new Date().toISOString()
     });
   }

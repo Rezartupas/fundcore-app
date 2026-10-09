@@ -1,7 +1,10 @@
 import { json, error } from '@sveltejs/kit';
 import { db } from '$lib/server/db/index';
-import { campaigns, donations, waAccounts, waMessages, waSettings } from '$lib/server/db/schema';
-import { eq, desc } from 'drizzle-orm';
+import { campaigns, donations } from '$lib/server/db/schema';
+import { eq } from 'drizzle-orm';
+import { quoteDonation } from '$lib/server/payment/pricing';
+import { assignStickyWaAccount } from '$lib/server/whatsapp/waha';
+import { notifyDonationEvent } from '$lib/server/whatsapp/notify';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {
@@ -48,22 +51,16 @@ export const POST: RequestHandler = async ({ request }) => {
     throw error(404, 'Campaign tidak ditemukan');
   }
 
-  // Pick sticky WA account (round robin or active account)
-  const activeWaAccounts = await db
-    .select()
-    .from(waAccounts)
-    .where(eq(waAccounts.isActive, true))
-    .limit(1);
-
-  const assignedWaAccountId = activeWaAccounts[0]?.id || null;
+  // Sticky CS number locked to this donation (deterministic pick; see waha.ts)
+  const assignedWaAccountId = await assignStickyWaAccount(cleanPhone);
 
   const donationId = 'don-' + Math.random().toString(36).slice(2, 10);
   const invoiceRef = 'INV-' + Date.now().toString().slice(-8) + '-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
   const invoiceUrl = `/payment/simulate/${donationId}`;
 
-  const platformFee = Math.round(numAmount * 0.05); // 5% platform fee
-  const gatewayFee = 1000; // Estimated baseline MDR
-  const netAmount = Math.max(0, numAmount - platformFee - gatewayFee);
+  // Channel is unknown until payment; quote the documented default estimate.
+  // The webhook overwrites all three with final values at settlement.
+  const { platformFee, gatewayFee, netAmount } = quoteDonation(numAmount);
 
   const finalDonorName = isAnonymous ? 'Hamba Allah' : (donorName?.trim() || 'Hamba Allah');
   const now = new Date().toISOString();
@@ -91,36 +88,17 @@ export const POST: RequestHandler = async ({ request }) => {
     createdAt: now
   });
 
-  // Record initial "donasi dibuat" WhatsApp notification
+  // Record the "donasi dibuat" WhatsApp notification through the notify module
   if (assignedWaAccountId) {
-    const [templateRow] = await db
+    const [donationRow] = await db
       .select()
-      .from(waSettings)
-      .where(eq(waSettings.type, 'created'))
+      .from(donations)
+      .where(eq(donations.id, donationId))
       .limit(1);
 
-    const messageTemplate =
-      templateRow?.template ||
-      'Halo {nama}, terima kasih atas niat mulia Anda berdonasi Rp{nominal} untuk "{campaign}". Silakan selesaikan pembayaran: {link_bayar}';
-
-    const textPayload = messageTemplate
-      .replace('{nama}', finalDonorName)
-      .replace('{nominal}', numAmount.toLocaleString('id-ID'))
-      .replace('{campaign}', campaign.title)
-      .replace('{link_bayar}', invoiceUrl)
-      .replace('{batas_bayar}', new Date(expiredAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB');
-
-    await db.insert(waMessages).values({
-      id: 'msg-' + Math.random().toString(36).slice(2, 10),
-      donationId,
-      type: 'created',
-      waAccountId: assignedWaAccountId,
-      toPhone: cleanPhone,
-      payload: textPayload,
-      status: 'sent',
-      sentAt: now,
-      createdAt: now
-    });
+    if (donationRow) {
+      await notifyDonationEvent({ donation: donationRow, campaign, type: 'created' });
+    }
   }
 
   return json({

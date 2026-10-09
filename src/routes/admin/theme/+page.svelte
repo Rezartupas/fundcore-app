@@ -69,6 +69,13 @@
     </div>
   {/if}
 
+  {#if form?.warning}
+    <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs font-bold text-amber-800 flex items-center gap-2">
+      <AlertTriangle class="w-4 h-4 text-amber-600" />
+      <span>{form.warning}</span>
+    </div>
+  {/if}
+
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
     <!-- Form Settings Column -->
     <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
